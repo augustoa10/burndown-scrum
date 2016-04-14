@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160202155053) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "goals", force: :cascade do |t|
     t.integer  "sprint_id"
     t.integer  "points"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160202155053) do
     t.datetime "updated_at",    null: false
   end
 
-  add_index "goals", ["sprint_id"], name: "index_goals_on_sprint_id"
+  add_index "goals", ["sprint_id"], name: "index_goals_on_sprint_id", using: :btree
 
   create_table "sprints", force: :cascade do |t|
     t.integer  "team_id"
@@ -35,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160202155053) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "sprints", ["team_id"], name: "index_sprints_on_team_id"
+  add_index "sprints", ["team_id"], name: "index_sprints_on_team_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string   "name"

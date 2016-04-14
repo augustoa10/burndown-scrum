@@ -1,6 +1,15 @@
 class SprintsController < ApplicationController
   def index
     @sprint = Sprint.last
-    @goals = { name: "Sprint Total Points #{ rand(100) }", data: @sprint.goals.group_by_week(:created_at, week_start: :mon).count }
+
+    burned_points = { @sprint.start_date => @sprint.points }
+    @goals = @sprint.goals.each do |goal|
+      burned_points[goal.burned_at] = goal.burned_points
+    end
+
+    @goals = [
+      { name: "Sprint Line", data: burned_points },
+      { name: "Sprint  Burn Line", data: { @sprint.start_date => @sprint.points, @sprint.end_date => 0 } }
+    ]
   end
 end
